@@ -4,6 +4,7 @@
   "description": "Fake API Countries for exercise 2",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "mocha ./test/* --exit"
   },
   "keywords": [],
