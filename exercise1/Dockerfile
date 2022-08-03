@@ -35,7 +35,7 @@ COPY src /src/java/src
 
 WORKDIR /src/java
 
-RUN mvn clean compile assembly:single
+RUN mvn clean package
 
 ENV INITIAL_VALUE=1 FINAL_VALUE=100
 
