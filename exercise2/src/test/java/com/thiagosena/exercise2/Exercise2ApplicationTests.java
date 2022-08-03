@@ -1,10 +1,10 @@
-package com.thiagosena.exercise;
+package com.thiagosena.exercise2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ExerciseApplicationTests {
+class Exercise2ApplicationTests {
 
 	@Test
 	void contextLoads() {
