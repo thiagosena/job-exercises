@@ -1,24 +1,24 @@
-package com.thiagosena.exercise1.core.messages.rules;
+package com.thiagosena.exercise1.core.rules.impl;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class MessageCounterDividedByThreeRuleTest {
+public class CounterDividedByThreeRuleTest {
     @Test
     void givenANumberDividedByThreeShouldReturnTrue() {
-        MessageCounterDividedByThreeRule threeRule = new MessageCounterDividedByThreeRule();
+        CounterDividedByThreeRule threeRule = new CounterDividedByThreeRule();
         Assertions.assertTrue(threeRule.isDivided(3));
     }
 
     @Test
     void givenANumberNotDividedByThreeShouldReturnFalse() {
-        MessageCounterDividedByThreeRule threeRule = new MessageCounterDividedByThreeRule();
+        CounterDividedByThreeRule threeRule = new CounterDividedByThreeRule();
         Assertions.assertFalse(threeRule.isDivided(5));
     }
 
     @Test
     void givenANumberDividedByThreeShouldReturnVisual() {
-        MessageCounterDividedByThreeRule threeRule = new MessageCounterDividedByThreeRule();
+        CounterDividedByThreeRule threeRule = new CounterDividedByThreeRule();
         Assertions.assertEquals(threeRule.print(3), "Visual");
     }
 }

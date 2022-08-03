@@ -1,8 +1,8 @@
-package com.thiagosena.exercise1.core.messages.rules;
+package com.thiagosena.exercise1.core.rules.impl;
 
-import com.thiagosena.exercise1.core.messages.MessageCounter;
+import com.thiagosena.exercise1.core.rules.CounterRule;
 
-public class MessageCounterDividedByFifteenRule implements MessageCounter {
+public class CounterDividedByFifteenRule implements CounterRule {
     @Override
     public String print(int counter) {
         return "Visual Nuts";

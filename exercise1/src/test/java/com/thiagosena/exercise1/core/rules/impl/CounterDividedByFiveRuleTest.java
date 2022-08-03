@@ -1,24 +1,24 @@
-package com.thiagosena.exercise1.core.messages.rules;
+package com.thiagosena.exercise1.core.rules.impl;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class MessageCounterDividedByFiveRuleTest {
+public class CounterDividedByFiveRuleTest {
     @Test
     void givenANumberDividedByFiveShouldReturnTrue() {
-        MessageCounterDividedByFiveRule fiveRule = new MessageCounterDividedByFiveRule();
+        CounterDividedByFiveRule fiveRule = new CounterDividedByFiveRule();
         Assertions.assertTrue(fiveRule.isDivided(5));
     }
 
     @Test
     void givenANumberNotDividedByFiveShouldReturnFalse() {
-        MessageCounterDividedByFiveRule fiveRule = new MessageCounterDividedByFiveRule();
+        CounterDividedByFiveRule fiveRule = new CounterDividedByFiveRule();
         Assertions.assertFalse(fiveRule.isDivided(9));
     }
 
     @Test
     void givenANumberDividedByFiveShouldReturnNuts() {
-        MessageCounterDividedByFiveRule fiveRule = new MessageCounterDividedByFiveRule();
+        CounterDividedByFiveRule fiveRule = new CounterDividedByFiveRule();
         Assertions.assertEquals(fiveRule.print(5), "Nuts");
     }
 }
