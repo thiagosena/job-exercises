@@ -1,0 +1,9 @@
+version: '3'
+services:
+  exercise1:
+    build: .
+    image: exercise1
+    container_name: exercise1
+    environment:
+      INITIAL_VALUE: 1
+      FINAL_VALUE: 25
