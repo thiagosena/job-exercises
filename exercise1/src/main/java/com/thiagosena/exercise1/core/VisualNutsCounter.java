@@ -1,33 +1,33 @@
 package com.thiagosena.exercise1.core;
 
-import com.thiagosena.exercise1.core.messages.MessageCounter;
-import com.thiagosena.exercise1.core.messages.rules.MessageCounterDividedByFifteenRule;
-import com.thiagosena.exercise1.core.messages.rules.MessageCounterDividedByFiveRule;
-import com.thiagosena.exercise1.core.messages.rules.MessageCounterDividedByThreeRule;
-import com.thiagosena.exercise1.core.messages.rules.MessageCounterRule;
+import com.thiagosena.exercise1.core.rules.CounterRule;
+import com.thiagosena.exercise1.core.rules.impl.CounterDividedByFifteenRule;
+import com.thiagosena.exercise1.core.rules.impl.CounterDividedByFiveRule;
+import com.thiagosena.exercise1.core.rules.impl.CounterDividedByThreeRule;
+import com.thiagosena.exercise1.core.rules.impl.CounterDefaultRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class VisualNutsCounter {
 
-    private static final List<MessageCounter> messageCounterRules = new ArrayList<>();
+    private static final List<CounterRule> counterRules = new ArrayList<>();
 
     static {
-        messageCounterRules.add(new MessageCounterDividedByFifteenRule());
-        messageCounterRules.add(new MessageCounterDividedByFiveRule());
-        messageCounterRules.add(new MessageCounterDividedByThreeRule());
-        messageCounterRules.add(new MessageCounterRule());
+        counterRules.add(new CounterDividedByFifteenRule());
+        counterRules.add(new CounterDividedByFiveRule());
+        counterRules.add(new CounterDividedByThreeRule());
+        counterRules.add(new CounterDefaultRule());
     }
 
-    public VisualNutsCounter(Integer counter, Integer finalCounter) {
+    public VisualNutsCounter(int counter, int finalCounter) {
         for (; counter <= finalCounter; counter++) {
             System.out.println(start(counter));
         }
     }
 
-    public String start(Integer count) {
-        return messageCounterRules.stream()
+    private String start(int count) {
+        return counterRules.stream()
                 .filter(messageCounter -> messageCounter.isDivided(count))
                 .map(message -> message.print(count))
                 .findFirst()
