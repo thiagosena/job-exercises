@@ -24,20 +24,25 @@ public class CountryController {
         this.countryService = countryService;
     }
 
-    @GetMapping("/total-countries-world")
+    @GetMapping("/total")
     @Cacheable("total-countries-world")
     public ResponseEntity<CountryTotalDto> getTotalCountriesWorld() {
         return ResponseEntity.ok(countryService.getTotalCountriesWorld());
     }
 
-    @GetMapping("/countries-speak-language/{language}")
+    @GetMapping("/language/{language}")
     public ResponseEntity<List<CountryDto>> getCountriesSpeakGerman(
             @PathVariable("language") String language) {
         return ResponseEntity.ok(countryService.getCountriesSpeakLanguage(language));
     }
 
-    @GetMapping("/total-languages-world")
+    @GetMapping("/total-languages")
     public ResponseEntity<CountryTotalDto> getTotalLanguagesWorld() {
         return ResponseEntity.ok(countryService.getTotalLanguagesWorld());
+    }
+
+    @GetMapping("/more-languages")
+    public ResponseEntity<CountryDto> getCountryWithMoreLanguages() {
+        return ResponseEntity.ok(countryService.getCountryWithMoreLanguages());
     }
 }

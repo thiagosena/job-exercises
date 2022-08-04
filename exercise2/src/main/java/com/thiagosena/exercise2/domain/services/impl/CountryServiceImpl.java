@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -62,5 +63,18 @@ public class CountryServiceImpl implements CountryService {
                     .toList().size());
         }
         return total;
+    }
+
+    @Override
+    public CountryDto getCountryWithMoreLanguages() {
+        List<CountryDto> countries = countryGateway.getCountries();
+        if (countries.isEmpty()) {
+            log.debug("There are no registered countries");
+            return null;
+        } else {
+            return countries.stream()
+                    .max(Comparator.comparing(countryDto -> countryDto.languages().size()))
+                    .orElse(null);
+        }
     }
 }
