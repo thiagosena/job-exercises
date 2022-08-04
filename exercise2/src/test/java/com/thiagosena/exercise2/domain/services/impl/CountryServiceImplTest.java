@@ -7,8 +7,9 @@ import com.thiagosena.exercise2.factory.CountryFactory;
 import com.thiagosena.exercise2.resources.gateways.CountryGateway;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,5 +45,13 @@ public class CountryServiceImplTest {
         when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
         CountryDto country = service.getCountryWithMoreLanguages();
         assertEquals(3, country.languages().size());
+    }
+
+    @Test
+    void shouldReturnMostCommonLanguagesAllCountries() {
+        when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
+        Map<String, Long> language = service.getMostCommonLanguagesAllCountries();
+        assertEquals(2, language.get("nl"));
+        assertNotEquals(1, language.get("en"));
     }
 }

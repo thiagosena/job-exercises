@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/countries")
 public class CountryController {
@@ -45,7 +47,7 @@ public class CountryController {
     }
 
     @GetMapping("/common-languages")
-    public ResponseEntity<CountryDto> getCommonLanguages() {
-        return ResponseEntity.ok(countryService.getCountryWithMoreLanguages());
+    public ResponseEntity<Map<String, Long>> getMostCommonLanguagesAllCountries() {
+        return ResponseEntity.ok(countryService.getMostCommonLanguagesAllCountries());
     }
 }

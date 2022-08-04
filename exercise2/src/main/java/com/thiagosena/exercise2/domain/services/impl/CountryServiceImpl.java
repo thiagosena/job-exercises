@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CountryServiceImpl implements CountryService {
@@ -78,5 +80,18 @@ public class CountryServiceImpl implements CountryService {
                     .max(Comparator.comparing(countryDto -> countryDto.languages().size()))
                     .orElse(null);
         }
+    }
+
+    @Override
+    public Map<String, Long> getMostCommonLanguagesAllCountries() {
+        List<CountryDto> countries = countryGateway.getCountries();
+
+        return countries.stream()
+                .map(CountryDto::languages)
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(lang -> lang, Collectors.counting()))
+                .entrySet().stream()
+                .filter(m -> m.getValue() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
