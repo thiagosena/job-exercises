@@ -1,0 +1,97 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Exercise 2 - VisualNuts
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - exercise2/**
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - exercise2/**
+
+jobs:
+  build:
+    environment: production
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: exercise2
+        shell: bash
+    outputs:
+      docker-image: ${{ steps.build-image.outputs.image }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        working-directory: exercise2
+        run: mvn -B verify --file pom.xml
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+          mask-aws-account-id: 'no'
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+          ECR_REPOSITORY: "visualnuts-exercise2"
+        working-directory: exercise2
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push --all-tags $ECR_REGISTRY/$ECR_REPOSITORY
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+          mask-aws-account-id: 'no'
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition visualnuts-exercise2 \
+          --query taskDefinition > task-definition.json
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          service: "visualnuts-exercise2"
+          cluster: "visualnuts-exercise2"
+          wait-for-service-stability: true
