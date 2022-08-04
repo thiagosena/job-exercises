@@ -7,7 +7,7 @@ import java.util.List;
 public class CountryFactory {
     public static List<CountryDto> getCountries() {
         return List.of(
-                new CountryDto("BR", List.of("pt")),
+                new CountryDto("BE", List.of("nl", "fr", "de")),
                 new CountryDto("PT", List.of("pt")),
                 new CountryDto("US", List.of("en"))
         );

@@ -10,4 +10,5 @@ public interface CountryService {
 
     List<CountryDto> getCountriesSpeakLanguage(String language);
 
+    CountryTotalDto getTotalLanguagesWorld();
 }

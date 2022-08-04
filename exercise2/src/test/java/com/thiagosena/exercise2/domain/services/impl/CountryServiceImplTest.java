@@ -34,4 +34,11 @@ public class CountryServiceImplTest {
         assertEquals(1, enLanguage.size());
         assertEquals("US", enLanguage.get(0).country());
     }
+
+    @Test
+    void shouldReturnTotalLanguagesWorld() {
+        when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
+        CountryTotalDto totalLanguagesWorld = service.getTotalLanguagesWorld();
+        assertEquals(5, totalLanguagesWorld.getTotal());
+    }
 }

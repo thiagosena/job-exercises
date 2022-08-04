@@ -35,4 +35,9 @@ public class CountryController {
             @PathVariable("language") String language) {
         return ResponseEntity.ok(countryService.getCountriesSpeakLanguage(language));
     }
+
+    @GetMapping("/total-languages-world")
+    public ResponseEntity<CountryTotalDto> getTotalLanguagesWorld() {
+        return ResponseEntity.ok(countryService.getTotalLanguagesWorld());
+    }
 }
