@@ -1,5 +1,6 @@
 package com.thiagosena.exercise2.domain.services.impl;
 
+import com.thiagosena.exercise2.application.exceptions.CountryNotFoundException;
 import com.thiagosena.exercise2.application.web.payloads.response.CountryDto;
 import com.thiagosena.exercise2.application.web.payloads.response.CountryTotalDto;
 import com.thiagosena.exercise2.domain.services.CountryService;
@@ -7,6 +8,7 @@ import com.thiagosena.exercise2.factory.CountryFactory;
 import com.thiagosena.exercise2.resources.gateways.CountryGateway;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +24,7 @@ public class CountryServiceImplTest {
     void shouldReturnTotalCountriesWorld() {
         when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
         CountryTotalDto totalCountriesWorld = service.getTotalCountriesWorld();
-        assertEquals(3, totalCountriesWorld.getTotal());
+        assertEquals(3, totalCountriesWorld.total());
     }
 
     @Test
@@ -37,7 +39,7 @@ public class CountryServiceImplTest {
     void shouldReturnTotalLanguagesWorld() {
         when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
         CountryTotalDto totalLanguagesWorld = service.getTotalLanguagesWorld();
-        assertEquals(5, totalLanguagesWorld.getTotal());
+        assertEquals(5, totalLanguagesWorld.total());
     }
 
     @Test
@@ -53,5 +55,23 @@ public class CountryServiceImplTest {
         Map<String, Long> language = service.getMostCommonLanguagesAllCountries();
         assertEquals(2, language.get("nl"));
         assertNotEquals(1, language.get("en"));
+    }
+
+    @Test
+    void shouldThrowCountryNotFountExceptionWhenNotRegisteredCountry() {
+        when(gateway.getCountries()).thenReturn(null);
+        assertThrows(CountryNotFoundException.class, service::getTotalCountriesWorld);
+    }
+
+    @Test
+    void shouldThrowCountryNotFountExceptionWhenEmptyCountryList() {
+        when(gateway.getCountries()).thenReturn(Collections.emptyList());
+        assertThrows(CountryNotFoundException.class, service::getTotalCountriesWorld);
+    }
+
+    @Test
+    void shouldThrowCountryNotFountExceptionWhenCountryMostLanguagesAndSpeakGerman() {
+        when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
+        assertThrows(CountryNotFoundException.class, () -> service.getCountryMostLanguagesAndSpeakGerman("kk"));
     }
 }
