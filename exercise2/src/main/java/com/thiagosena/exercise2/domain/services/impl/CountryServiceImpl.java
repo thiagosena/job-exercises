@@ -37,7 +37,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<CountryDto> getCountriesSpeakLanguage(String language) {
+    public CountryDto getCountryMostLanguagesAndSpeakGerman(String language) {
         List<CountryDto> countries = countryGateway.getCountries();
         if (countries.isEmpty()) {
             log.debug("There are no registered countries");
@@ -45,7 +45,8 @@ public class CountryServiceImpl implements CountryService {
         } else {
             return countries.stream()
                     .filter(country -> country.languages().contains(language))
-                    .toList();
+                    .max(Comparator.comparing(countryDto -> countryDto.languages()
+                            .size())).orElse(null);
         }
     }
 
@@ -60,6 +61,7 @@ public class CountryServiceImpl implements CountryService {
             total.setTotal(countries.stream()
                     .map(CountryDto::languages)
                     .flatMap(Collection::stream)
+                    .distinct()
                     .toList().size());
         }
         return total;

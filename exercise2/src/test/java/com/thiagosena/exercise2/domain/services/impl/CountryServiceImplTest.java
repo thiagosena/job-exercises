@@ -7,10 +7,8 @@ import com.thiagosena.exercise2.factory.CountryFactory;
 import com.thiagosena.exercise2.resources.gateways.CountryGateway;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,12 +25,11 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    void shouldReturnCountriesSpeakLanguage() {
+    void shouldReturnCountryWithMostLanguageWhereTheySpeak() {
         when(gateway.getCountries()).thenReturn(CountryFactory.getCountries());
-        List<CountryDto> enLanguage = service.getCountriesSpeakLanguage("en");
-        assertFalse(enLanguage.isEmpty());
-        assertEquals(1, enLanguage.size());
-        assertEquals("US", enLanguage.get(0).country());
+        CountryDto enLanguage = service.getCountryMostLanguagesAndSpeakGerman("en");
+        assertEquals("US", enLanguage.country());
+        assertTrue(enLanguage.languages().contains("en"));
     }
 
     @Test

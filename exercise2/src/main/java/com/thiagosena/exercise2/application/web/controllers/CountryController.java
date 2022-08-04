@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/countries")
 public class CountryController {
@@ -30,10 +28,10 @@ public class CountryController {
         return ResponseEntity.ok(countryService.getTotalCountriesWorld());
     }
 
-    @GetMapping("/language/{language}")
-    public ResponseEntity<List<CountryDto>> getCountriesSpeakGerman(
+    @GetMapping("/most-language-where-speak/{language}")
+    public ResponseEntity<CountryDto> getCountryMostLanguagesAndSpeakGerman(
             @PathVariable("language") String language) {
-        return ResponseEntity.ok(countryService.getCountriesSpeakLanguage(language));
+        return ResponseEntity.ok(countryService.getCountryMostLanguagesAndSpeakGerman(language));
     }
 
     @GetMapping("/total-languages")
@@ -43,6 +41,11 @@ public class CountryController {
 
     @GetMapping("/more-languages")
     public ResponseEntity<CountryDto> getCountryWithMoreLanguages() {
+        return ResponseEntity.ok(countryService.getCountryWithMoreLanguages());
+    }
+
+    @GetMapping("/common-languages")
+    public ResponseEntity<CountryDto> getCommonLanguages() {
         return ResponseEntity.ok(countryService.getCountryWithMoreLanguages());
     }
 }
