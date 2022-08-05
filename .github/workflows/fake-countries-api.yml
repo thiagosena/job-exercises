@@ -5,23 +5,19 @@ name: Fake countries API CI/CD
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - fake-countries-api/**
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
-    paths:
-      - fake-countries-api/**
+    branches: [ "main" ]
+
+defaults:
+  run:
+    working-directory: fake-countries-api
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: fake-countries-api
-        shell: bash
+
     strategy:
       matrix:
         node-version: [ 12.x, 14.x, 16.x ]
@@ -42,13 +38,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: fake-countries-api
-
     steps:
       - uses: actions/checkout@v3
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'fake-countries-api'
-          heroku_email: ${{ env.HEROKU_EMAIL }}
+          heroku_email: 'lord.sena@gmail.com'
           appdir: "fake-countries-api"
