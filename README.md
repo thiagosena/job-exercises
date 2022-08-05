@@ -1,10 +1,9 @@
 # VisualNuts Code Challenger
 
-## Exercise 1 
-Doc:
+Two code exercises for visual nuts challange
 
-## Exercise 2
-Doc: 
+### [Exercise1 Documentation](exercise1/README.md) :book:
 
-## Fake Countries API
-https://fake-countries-api.herokuapp.com/countries
+### [Exercise2 Documentation](exercise2/README.md) :book:
+
+### [Fake Countries API](fake-countries-api/README.md) :book:
