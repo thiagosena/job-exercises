@@ -1,6 +1,6 @@
-# VisualNuts Code Challenger
+# Code Challenger
 
-Two code exercises for visual nuts challange
+Two code exercises for a job interview
 
 ### [Exercise1 Documentation](exercise1/README.md) :book:
 
